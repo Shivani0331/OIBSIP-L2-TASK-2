@@ -1,0 +1,251 @@
+/* =================== DESIGN TOKENS & RESET =================== */
+:root{
+  --bg-dark:#020617;
+  --glass: rgba(255,255,255,0.06);
+  --accent1:#f9d342; /* gold */
+  --accent2:#8b5cf6; /* violet */
+  --accent3:#06b6d4; /* teal */
+  --muted: #9aa7bf;
+  --radius:16px;
+  --fw-regular:500;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg-dark);
+  color:#eef2f7;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.6;
+}
+
+/* =================== BACKGROUND LAYERS (parallax illusion) =================== */
+.bg-layer{
+  position:fixed; inset:0; z-index:-3; pointer-events:none;
+}
+.layer-back{
+  background: linear-gradient(180deg,#001024 0%, #031529 30%, #071028 70%);
+  transform:translateZ(-2px) scale(1.05);
+  filter:blur(20px) saturate(.9);
+}
+.layer-mid{
+  background:
+    radial-gradient(800px 400px at 10% 10%, rgba(139,92,246,0.08), transparent 10%),
+    radial-gradient(600px 300px at 90% 70%, rgba(6,182,212,0.06), transparent 10%);
+  mix-blend-mode:overlay;
+  animation: slowSpin 40s linear infinite;
+}
+.layer-front{
+  background-image: radial-gradient(2px 2px at 40px 40px, rgba(255,255,255,0.8), transparent 20%);
+  opacity:.06;
+  transform:translateZ(0);
+}
+@keyframes slowSpin{to{transform:rotate(1turn)}}
+
+/* =================== LAYOUT & CONTAINERS =================== */
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+.section{padding:72px 0}
+
+/* =================== HERO =================== */
+.hero{
+  display:grid; grid-template-columns: 1fr 420px; gap:40px; align-items:center;
+  min-height:78vh; padding:56px 20px;
+}
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr; text-align:center}
+}
+.hero-left{padding-right:10px}
+.hero-title{font-family:"Playfair Display",serif;font-weight:700;font-size:clamp(34px,6vw,60px);margin-bottom:12px}
+.gradient-text{
+  background:linear-gradient(90deg,var(--accent1),#ff4ecd,var(--accent3));
+  -webkit-background-clip:text; background-clip:text;
+  color:transparent; -webkit-text-fill-color:transparent;
+  display:inline-block;
+}
+.hero-tag{color:var(--muted);font-size:1.05rem;margin-bottom:18px}
+
+/* CTA */
+.btn{
+  display:inline-block;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg,var(--accent2),var(--accent3));
+  color:#071122;font-weight:700;text-decoration:none;margin-right:10px;box-shadow:0 10px 30px rgba(6,182,212,0.08);
+}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.08);color:inherit}
+
+/* portrait */
+.portrait-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.portrait{
+  width:360px;height:360px;object-fit:cover;border-radius:20px;border:8px solid rgba(255,255,255,0.06);
+  box-shadow:0 30px 80px rgba(6,182,212,0.08), inset 0 0 30px rgba(139,92,246,0.04);
+  transform: translateY(-10px); transition:transform .6s cubic-bezier(.2,.9,.2,1);
+}
+.portrait:hover{transform:translateY(-18px) scale(1.02)}
+.portrait-glow{position:absolute;inset:auto 18px 18px 18px;border-radius:18px;pointer-events:none;filter:blur(24px);opacity:.55;background:linear-gradient(90deg,var(--accent2),var(--accent3))}
+
+/* =================== ABOUT / ACHIEVEMENTS =================== */
+.grid-two{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
+@media (max-width:980px){.grid-two{grid-template-columns:1fr}}
+.card{padding:24px;border-radius:var(--radius);background:var(--glass);border:1px solid rgba(255,255,255,0.04)}
+.card h2{font-family:"Playfair Display",serif;color:var(--accent1);margin-bottom:10px}
+.stats-list{list-style:none;color:var(--muted);margin-top:12px}
+.achievements .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:18px}
+.neon{transition:transform .3s, box-shadow .3s}
+.neon:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(139,92,246,0.12)}
+
+.cards{margin-top:18px}
+
+/* =================== TIMELINE =================== */
+.timeline .container{max-width:950px}
+.timeline-rail{position:relative;margin-top:36px}
+.timeline-rail::before{
+  content:'';position:absolute;left:50%;transform:translateX(-50%);top:0;height:100%;width:6px;border-radius:3px;
+  background:linear-gradient(180deg,var(--accent2),var(--accent3));box-shadow:0 0 30px rgba(139,92,246,0.08);
+}
+.timeline-row{display:flex;justify-content:flex-start;align-items:flex-start;padding:18px 0}
+.timeline-item{
+  width:48%;position:relative;transition:transform .35s ease, box-shadow .35s ease;
+}
+.timeline-item.left{margin-right:auto; padding-right:40px}
+.timeline-item.right{margin-left:auto;padding-left:40px}
+.timeline-item .node{
+  position:absolute; top:22px; right:-36px; width:18px;height:18px;border-radius:50%;
+  background:var(--accent1); box-shadow:0 0 18px var(--accent1), 0 0 30px rgba(255,77,200,0.08);
+}
+.timeline-item.right .node{left:-36px; right:auto}
+.timeline-item .time{color:var(--muted);font-weight:700;margin-bottom:6px}
+.timeline-item .body h4{margin-bottom:8px;color:var(--accent3)}
+.timeline-item .body p{color:#c9d6e6}
+.timeline-item:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(0,0,0,0.45)}
+
+/* staggered reveal with CSS (simple effect) */
+.timeline-row:nth-child(1) .timeline-item{animation:reveal .7s .08s both}
+.timeline-row:nth-child(2) .timeline-item{animation:reveal .7s .18s both}
+.timeline-row:nth-child(3) .timeline-item{animation:reveal .7s .28s both}
+.timeline-row:nth-child(4) .timeline-item{animation:reveal .7s .38s both}
+@keyframes reveal{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
+
+/* =================== QUOTE ROTATOR (CSS-only) =================== */
+.quote-rotator{position:relative;height:120px;overflow:hidden;margin-top:12px}
+.quote-rotator .q{position:absolute;left:0;right:0;opacity:0;padding:18px 24px;border-left:4px solid var(--accent1);color:#e6eef8}
+.quote-rotator .q1{animation:slideQuote 12s linear infinite 0s}
+.quote-rotator .q2{animation:slideQuote 12s linear infinite 4s}
+.quote-rotator .q3{animation:slideQuote 12s linear infinite 8s}
+@keyframes slideQuote{
+  0%{opacity:0;transform:translateY(10px)}
+  6%{opacity:1;transform:translateY(0)}
+  30%{opacity:1;transform:translateY(0)}
+  36%{opacity:0;transform:translateY(-10px)}
+  100%{opacity:0}
+}
+
+/* =================== GALLERY / MASONRY =================== */
+/* Gallery Section */
+.gallery-section {
+  padding: 60px 20px;
+  text-align: center;
+  background: linear-gradient(180deg,#001024 0%, #031529 30%, #071028 70%);
+  color: white;
+}
+
+.gallery-section h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 100px;       /* super large */
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  margin-bottom: 60px;
+  text-shadow: 5px 5px 20px rgba(0,0,0,0.8);
+  text-align: left;      /* 👈 now aligned left */
+  padding-left: 20px;    /* adds space from the edge */
+}
+
+
+/* Flip Card Layout */
+.gallery {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.flip-card {
+  background: transparent;
+  width: 300px;
+  height: 350px;
+  perspective: 1000px; /* enables 3D effect */
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  backface-visibility: hidden;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.flip-card-front img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.flip-card-back {
+  background: #222;
+  color: white;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.flip-card-back h3 {
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  color: #ffcc00;
+}
+
+
+
+
+/* =================== LEGACY & FOOTER =================== */
+.legacy p{max-width:900px;margin:12px auto;color:#cddbf0}
+.footer{padding:28px 0;background:linear-gradient(180deg,rgba(0,0,0,.2),rgba(0,0,0,.6))}
+.footer p{color:var(--muted);margin-bottom:8px}
+.social a{color:#a7c6ff;margin-right:14px;text-decoration:none;border-bottom:1px dashed transparent}
+.social a:hover{border-bottom-color:#a7c6ff}
+
+/* =================== RESPONSIVE =================== */
+@media (max-width:1100px){
+  .portrait{width:320px;height:320px}
+}
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr;gap:18px;padding:36px 20px}
+  .portrait{width:300px;height:300px}
+}
+@media (max-width:680px){
+  .timeline-item.left, .timeline-item.right{width:100%;padding:0;margin:18px 0}
+  .timeline-rail::before{left:18px}
+  .timeline-item .node{left:6px;right:auto}
+}
+
+/* small polish */
+a{color:inherit}
+h2{font-family:"Playfair Display",serif}
