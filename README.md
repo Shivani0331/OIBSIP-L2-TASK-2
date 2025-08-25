@@ -18,7 +18,8 @@ This is a simple tribute page created using **HTML** and **CSS**. It showcases a
 - `style.css` – Styling and design
 
 ## 🚀 [View the Tribute Page]
-https://github.com/Shivani0331/OIBSIP-L2-TASK-2.git
+https://shivani0331.github.io/OIBSIP-L2-TASK-2/
+
 
 ## 🎓 Internship Context
 This project fulfills **Level 2 Task 2** of the **AICTE OASIS INFOBYTE Web Development Internship**, focusing on creative expression through basic web design.
